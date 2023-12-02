@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import operator
 import pandas as pd
 
-year = '2019'
+year = '2023'
 
 csv_filename = f"data/formatted/{year}.csv"
 
@@ -17,7 +17,7 @@ df = pd.read_csv(csv_filename)
 df['PlayDate'] = pd.to_datetime(df['PlayDate'])
 
 # Sort the DataFrame by the 'PlayDate' column
-df_sorted = df.sort_values(by='PlayDate')
+df_sorted = df.sort_values(by=['PlayDate','AP'])
 
 # Save the sorted DataFrame to a new CSV file
 
