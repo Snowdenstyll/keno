@@ -6,10 +6,11 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 import re
+from datetime import datetime
 
 
 #type ='am'
-year = '2023'
+year = '2020'
 
 Time_AM = {
     "code": "A",
@@ -24,6 +25,9 @@ Time_PM = {
 Times = {'am' : Time_AM, 'pm' : Time_PM}
 
 time_sets = ['am', 'pm']
+
+if (year == '2019'):
+    exit()
 
 for t in time_sets:
     type = t
@@ -45,10 +49,12 @@ for t in time_sets:
             csv_writer.writerow(header)
             for idx, winning_number in enumerate(winning_numbers):
                 date_element = re.sub(r'[^a-zA-Z0-9 ]', '', dates[idx].text.strip()) if dates[idx] else ""
+                date_element = datetime.strptime(date_element, "%b %d %Y")
+                date_element = date_element.strftime("%Y-%m-%d")
                 row_data = [date_element] + [Times[type]['code']] + winning_number.text.split()  # Assuming winning_number is a space-separated string
                 # Write the row to the CSV file
                 csv_writer.writerow(row_data)
-        print("Writing to CSV file complete.")
+        print(f"Writing to CSV file complete -{year} {Times[type]['label']}")
 
     else:
         print("No ul element found with class 'nbr-grp'.")

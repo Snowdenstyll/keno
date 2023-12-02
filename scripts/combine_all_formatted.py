@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import operator
 import datetime
 
-years = ['2023', '2022', '2021', '2020', '2019']
+years = ['2019', '2020', '2021', '2022', '2023']
 
 date = datetime.datetime.now()
 version = date.strftime("%y_%m_%d_%f")

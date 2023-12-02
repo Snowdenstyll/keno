@@ -2,10 +2,12 @@ import os
 import csv
 import re
 import requests
+import operator
 from bs4 import BeautifulSoup
 import operator
+import pandas as pd
 
-year='2023'
+year='2020'
 # Function to switch between 'P' and 'A'
 def switch_ap(current_ap):
     return 'A' if current_ap == 'P' else 'P'
@@ -21,6 +23,8 @@ def get_last_ap(csv_filename):
         return 'P'  # Default to 'P' if the file doesn't exist
 
 # Your existing code...
+if year == '2019':
+    exit()
 
 # Ensure the directories exist, create them if not
 output_directory = 'data/scraping/'
@@ -45,10 +49,12 @@ with open(evening_csv_filename, newline='') as csvfile:
     evening_list = list(evening_csv)
     evening_list.pop(0)
 
+
 with open(midday_csv_filename, newline='') as csvfile:
     midday_csv = csv.reader(csvfile, quotechar='|')
     midday_list = list(midday_csv)
     midday_list.pop(0)
+
 
 length = len(list(midday_list))
 
@@ -68,3 +74,19 @@ with open(csv_filename, 'w', newline='') as csvfile:
 
         csv_writer.writerow(row_data_evening)
         csv_writer.writerow(row_data_midday)
+
+
+# Read the CSV file into a DataFrame
+df = pd.read_csv(csv_filename)
+
+df['PlayDate'] = pd.to_datetime(df['PlayDate'])
+
+# Sort the DataFrame by the 'PlayDate' column
+df_sorted = df.sort_values(by='PlayDate')
+
+# Save the sorted DataFrame to a new CSV file
+
+# Save the sorted DataFrame to a new CSV file
+df_sorted.to_csv(csv_filename, index=False)
+
+print(f'The CSV file has been sorted by the "PlayDate" column and saved to {csv_filename}.')
