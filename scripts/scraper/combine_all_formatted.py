@@ -1,3 +1,5 @@
+#combine all csv files in formated/ into one master csv file
+
 import os
 import csv
 import re

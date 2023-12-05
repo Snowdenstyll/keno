@@ -1,7 +1,6 @@
 ## Get the data from site and save it to csv file
 ##
 
-
 import requests
 import csv
 from bs4 import BeautifulSoup

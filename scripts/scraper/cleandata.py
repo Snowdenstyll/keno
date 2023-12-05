@@ -1,3 +1,6 @@
+# Combines the midday and evening csv files into one csv file
+# placed in the formatted/{year}.csv file
+
 import os
 import csv
 import re
