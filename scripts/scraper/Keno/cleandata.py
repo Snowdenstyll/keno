@@ -10,7 +10,8 @@ from bs4 import BeautifulSoup
 import operator
 import pandas as pd
 
-year='2023'
+year='2024'
+
 # Function to switch between 'P' and 'A'
 def switch_ap(current_ap):
     return 'A' if current_ap == 'P' else 'P'
