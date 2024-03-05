@@ -1,3 +1,4 @@
+# Step 2
 # Combines the midday and evening csv files into one csv file
 # placed in the formatted/{year}.csv file
 
@@ -31,7 +32,7 @@ if year == '2019':
     exit()
 
 # Ensure the directories exist, create them if not
-output_directory = 'data/scraping/'
+output_directory = 'data/Keno/scraping/'
 os.makedirs(output_directory, exist_ok=True)
 
 # File paths for the existing CSV files
@@ -62,7 +63,7 @@ with open(midday_csv_filename, newline='') as csvfile:
 
 length = len(list(midday_list))
 
-csv_filename = f"data/formatted/{year}.csv"
+csv_filename = f"data/Keno/formatted/{year}.csv"
 header = ['PlayDate', 'AP'] + [f'N{i:02d}' for i in range(1, 21)]
 
 with open(csv_filename, 'w', newline='') as csvfile:
@@ -72,13 +73,8 @@ with open(csv_filename, 'w', newline='') as csvfile:
     for idx in range(length):
         row_data_evening = evening_list[idx - index_balancer]
         row_data_midday = midday_list[idx]
-        if (row_data_evening[0] != row_data_midday[0]):
-            index_balancer+=1
-            row_data_evening = []
-
         csv_writer.writerow(row_data_evening)
         csv_writer.writerow(row_data_midday)
-
 
 # Read the CSV file into a DataFrame
 df = pd.read_csv(csv_filename)
@@ -87,8 +83,6 @@ df['PlayDate'] = pd.to_datetime(df['PlayDate'])
 
 # Sort the DataFrame by the 'PlayDate' column
 df_sorted = df.sort_values(by=['PlayDate','AP'])
-
-# Save the sorted DataFrame to a new CSV file
 
 # Save the sorted DataFrame to a new CSV file
 df_sorted.to_csv(csv_filename, index=False)

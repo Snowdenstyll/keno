@@ -1,4 +1,6 @@
-## Get the data from site and save it to csv file
+##
+# Step 1
+# Get the data from site and save it to csv file
 ##
 
 import requests
@@ -41,7 +43,7 @@ for t in time_sets:
     dates.pop(0)  # remove date title
 
     if winning_numbers:
-        csv_filename = f"data/scraping/extracted_numbers_{Times[type]['label']}_{year}.csv"
+        csv_filename = f"data/Keno/scraping/extracted_numbers_{Times[type]['label']}_{year}.csv"
         header = ['PlayDate', 'AP'] + [f'N{i:02d}' for i in range(1, 21)]
         with open(csv_filename, 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
