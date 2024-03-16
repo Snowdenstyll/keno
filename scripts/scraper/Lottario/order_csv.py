@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import operator
 import pandas as pd
 
-year = '2023'
+year = '2024'
 
 csv_filename = f"data/Lottario/scraping/{year}.csv"
 
