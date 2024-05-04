@@ -61,7 +61,7 @@ with open(midday_csv_filename, newline='') as csvfile:
     midday_list.pop(0)
 
 
-length = len(list(midday_list))
+length = len(list(evening_list))
 
 csv_filename = f"data/Keno/formatted/{year}.csv"
 header = ['PlayDate', 'AP'] + [f'N{i:02d}' for i in range(1, 21)]

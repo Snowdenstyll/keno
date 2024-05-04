@@ -30,17 +30,37 @@ time_sets = ['am', 'pm']
 if (year == '2019'):
     exit()
 
+
+def getDates (dates):
+    date_elements = []
+    for tr in dates:
+        first_td = tr.find('td')  # Find the first 'td' element in the 'tr'
+        if first_td:
+            date_elem = re.sub(r'[^a-zA-Z0-9 ]', '', first_td.text.strip())
+            if date_elem != "":
+                date_element = datetime.strptime(date_elem, "%B %d %Y").strftime("%Y-%m-%d")
+                date_elements.append(date_element)
+
+    return date_elements
+
+def getNumbers (winning_numbers):
+    winning_numbers_arr = []
+    for wn in winning_numbers:
+        winning_numbers_arr.append(wn.text.split())
+    return winning_numbers_arr
+
 for t in time_sets:
     type = t
-    URL = f"https://www.lotteryleaf.com/on/daily-keno-{Times[type]['label']}/{year}"
+    URL = f"https://www.lotteryleaf.com/on/on-daily-keno-{Times[type]['label']}/{year}"
 
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
 
-    winning_numbers = soup.find_all('ul', class_='nbr-grp')
-    dates = soup.find_all('td', class_='win-nbr-date')
+    winning_numbers = soup.find_all('div', class_='c-lottery-numbers')
+    winning_numbers_arr = getNumbers(winning_numbers)
 
-    dates.pop(0)  # remove date title
+    dates = soup.find('table').find_all('tr')
+    dates_arr = getDates(dates)
 
     if winning_numbers:
         csv_filename = f"data/Keno/scraping/extracted_numbers_{Times[type]['label']}_{year}.csv"
@@ -48,14 +68,14 @@ for t in time_sets:
         with open(csv_filename, 'w', newline='') as csvfile:
             csv_writer = csv.writer(csvfile)
             csv_writer.writerow(header)
-            for idx, winning_number in enumerate(winning_numbers):
-                date_element = re.sub(r'[^a-zA-Z0-9 ]', '', dates[idx].text.strip()) if dates[idx] else ""
-                date_element = datetime.strptime(date_element, "%b %d %Y")
-                date_element = date_element.strftime("%Y-%m-%d")
-                row_data = [date_element] + [Times[type]['code']] + winning_number.text.split()  # Assuming winning_number is a space-separated string
+            for idx, winning_number in enumerate(winning_numbers_arr):
+                date_element = dates_arr[idx]
+                print(winning_number)
+                row_data = [date_element] + [Times[type]['code']] + winning_number  # Assuming winning_number is a space-separated string
                 # Write the row to the CSV file
                 csv_writer.writerow(row_data)
         print(f"Writing to CSV file complete -{year} {Times[type]['label']}")
 
     else:
         print("No ul element found with class 'nbr-grp'.")
+
