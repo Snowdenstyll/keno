@@ -70,7 +70,6 @@ for t in time_sets:
             csv_writer.writerow(header)
             for idx, winning_number in enumerate(winning_numbers_arr):
                 date_element = dates_arr[idx]
-                print(winning_number)
                 row_data = [date_element] + [Times[type]['code']] + winning_number  # Assuming winning_number is a space-separated string
                 # Write the row to the CSV file
                 csv_writer.writerow(row_data)
